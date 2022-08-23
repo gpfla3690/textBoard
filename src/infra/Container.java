@@ -1,6 +1,5 @@
 package infra;
 
-import controller.Controller;
 import controller.SystemController;
 
 import java.util.Scanner;
