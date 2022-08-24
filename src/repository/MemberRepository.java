@@ -19,4 +19,19 @@ public class MemberRepository {
             return memberId;
     }
 
+    public Member getMemberByLoginId(String loginId){
+
+        for(Member member : store){
+            if(member.getLoginId().equals(loginId)){
+                return member;
+            }
+        }
+        return null;
+    }
+
+    public boolean isExistsByLoginId(String loginId){
+        return getMemberByLoginId(loginId) != null;
+    }
+
+
 }
