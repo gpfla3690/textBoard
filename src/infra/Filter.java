@@ -34,6 +34,41 @@ public class Filter {
         return false;
     }
 
+    private String sorting(String url){
+
+        if(isAnonymous(url)){
+            return "ANONYMOUS";
+        }
+
+        if(isNeedAuth(url)){
+            return "HASAUTH";
+        }
+
+        return "PERMITALL";
+
+    }
+
+    public boolean isValidRequest(){
+
+        String originUrl = request.getOriginUri();
+
+        String sortCode = sorting(originUrl);
+        boolean isLogon = request.isLogon();
+
+        if(sortCode.equals("ANONYMOUS")){
+            if(isLogon){
+                return false;
+            }
+        } else if (sortCode.equals("HASAUTH")) {
+            if(!isLogon){
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
 
 
 }
