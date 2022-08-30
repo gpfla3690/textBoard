@@ -28,6 +28,9 @@ public class ArticleController implements Controller{
             case "detail":
                 detail(request);
                 break;
+            case "delete":
+                delete(request);
+                break;
             default:
                 System.out.println("존재하지 않는 요청입니다.");
                 break;
@@ -85,4 +88,33 @@ public class ArticleController implements Controller{
 
     }
 
+
+    public void delete(Request request) {
+
+        String paramKey = "id";
+
+        if(!Util.hasParam(request, paramKey)){
+            System.out.println(paramKey + "파라미터가 필요합니다.");
+            return;
+        }
+
+        int articleId = request.getParameterIntValue(paramKey);
+
+        Article findArticle = articleService.getById(articleId);
+
+        if(findArticle == null){
+            System.out.println("해당 게시물은 존재하지 않습니다.");
+            return;
+        }
+
+        if(!request.getLogonMemberId().equals(findArticle.getAuthor())){
+            System.out.println("권한이 없습니다.");
+            return;
+        }
+
+        articleService.delete(findArticle);
+
+        System.out.println("성공적으로 삭제되었습니다.");
+
+    }
 }
